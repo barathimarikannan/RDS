@@ -9,10 +9,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-    host: 'your-rds-endpoint.amazonaws.com',
+    host: 'db.c54c2w448eoa.ap-south-1.rds.amazonaws.com',
     user: 'admin',
-    password: 'yourpassword',
-    database: 'userdb'
+    password: 'dhinabaru_39',
+    database: 'db'
 });
 
 db.connect(err => {
