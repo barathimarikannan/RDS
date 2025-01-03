@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form, #userList {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Registration</h1>
+    <form action="/register" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+        <label for="phone">Phone Number:</label>
+        <input type="text" name="phone" required>
+        <button type="submit">Register</button>
+    </form>
+
+    <h2>View Users</h2>
+    <button onclick="fetchUsers()">Get All Users</button>
+    <div id="userList"></div>
+
+    <h2>Delete User</h2>
+    <form>
+        <label for="deleteId">User ID:</label>
+        <input type="text" id="deleteId" required>
+        <button type="button" onclick="deleteUser()">Delete</button>
+    </form>
+
+    <script>
+        function fetchUsers() {
+            fetch('/users')
+                .then(res => res.json())
+                .then(data => {
+                    let output = '<ul>';
+                    data.forEach(user => {
+                        output += `<li>${user.name} - ${user.email} - ${user.phone}</li>`;
+                    });
+                    output += '</ul>';
+                    document.getElementById('userList').innerHTML = output;
+                });
+        }
+
+        function deleteUser() {
+            const userId = document.getElementById('deleteId').value;
+            fetch(`/delete/${userId}`, { method: 'DELETE' })
+                .then(res => res.text())
+                .then(data => alert(data));
+        }
+    </script>
+</body>
+</html>
